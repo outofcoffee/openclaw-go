@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2026.4.15] - 2026-04-16
+
+Sync to upstream openclaw v2026.4.15. Six new gateway RPC methods: dream diary maintenance operations and model auth status.
+
+### Added
+
+- `DoctorMemoryBackfillDreamDiary(ctx) (*DoctorMemoryDreamActionResult, error)` — backfills the DREAMS.md dream diary from existing daily memory files (`doctor.memory.backfillDreamDiary`)
+- `DoctorMemoryResetDreamDiary(ctx) (*DoctorMemoryDreamActionResult, error)` — removes backfilled entries from the dream diary (`doctor.memory.resetDreamDiary`)
+- `DoctorMemoryResetGroundedShortTerm(ctx) (*DoctorMemoryDreamActionResult, error)` — removes grounded short-term memory candidates from the dreaming store (`doctor.memory.resetGroundedShortTerm`)
+- `DoctorMemoryRepairDreamingArtifacts(ctx) (*DoctorMemoryDreamActionResult, error)` — repairs corrupted dreaming artifacts (`doctor.memory.repairDreamingArtifacts`)
+- `DoctorMemoryDedupeDreamDiary(ctx) (*DoctorMemoryDreamActionResult, error)` — removes duplicate entries from the dream diary (`doctor.memory.dedupeDreamDiary`)
+- `ModelsAuthStatus(ctx) (*ModelsAuthStatusResult, error)` — returns authentication health status for all configured model providers (`models.authStatus`)
+- `DoctorMemoryDreamActionResult` shared protocol type for all dream diary action responses
+- `ModelsAuthStatusResult`, `ModelsAuthStatusProvider`, `ModelsAuthStatusProfile`, `ModelsAuthExpiry` protocol types
+- `MethodDoctorMemoryBackfillDreamDiary`, `MethodDoctorMemoryResetDreamDiary`, `MethodDoctorMemoryResetGroundedShortTerm`, `MethodDoctorMemoryRepairDreamingArtifacts`, `MethodDoctorMemoryDedupeDreamDiary`, `MethodModelsAuthStatus` method name constants
+
 ## [v2026.4.7] - 2026-04-11
 
 Sync to upstream openclaw v2026.4.7. Seven new gateway RPC methods: dream diary diagnostics, approval list endpoints, and session compaction CRUD.

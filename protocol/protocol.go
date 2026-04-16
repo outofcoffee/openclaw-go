@@ -221,8 +221,13 @@ const (
 	MethodDeviceTokenRotate MethodName = "device.token.rotate"
 
 	// Diagnostics and execution approvals.
-	MethodDoctorMemoryDreamDiary MethodName = "doctor.memory.dreamDiary"
-	MethodDoctorMemoryStatus     MethodName = "doctor.memory.status"
+	MethodDoctorMemoryBackfillDreamDiary      MethodName = "doctor.memory.backfillDreamDiary"
+	MethodDoctorMemoryDedupeDreamDiary        MethodName = "doctor.memory.dedupeDreamDiary"
+	MethodDoctorMemoryDreamDiary              MethodName = "doctor.memory.dreamDiary"
+	MethodDoctorMemoryRepairDreamingArtifacts MethodName = "doctor.memory.repairDreamingArtifacts"
+	MethodDoctorMemoryResetDreamDiary         MethodName = "doctor.memory.resetDreamDiary"
+	MethodDoctorMemoryResetGroundedShortTerm  MethodName = "doctor.memory.resetGroundedShortTerm"
+	MethodDoctorMemoryStatus                  MethodName = "doctor.memory.status"
 	MethodExecApprovalGet        MethodName = "exec.approval.get"
 	MethodExecApprovalList       MethodName = "exec.approval.list"
 	MethodExecApprovalRequest    MethodName = "exec.approval.request"
@@ -242,6 +247,7 @@ const (
 	MethodGatewayIdentityGet MethodName = "gateway.identity.get"
 	MethodLastHeartbeat      MethodName = "last-heartbeat"
 	MethodLogsTail           MethodName = "logs.tail"
+	MethodModelsAuthStatus   MethodName = "models.authStatus"
 	MethodModelsList         MethodName = "models.list"
 
 	// Node RPC and node queue/pairing operations.
@@ -2671,4 +2677,66 @@ type SessionsCompactionRestoreResult struct {
 	SessionID  string                        `json:"sessionId"`
 	Checkpoint SessionCompactionCheckpoint   `json:"checkpoint"`
 	Entry      SessionsCompactionBranchEntry `json:"entry"`
+}
+
+// ---------------------------------------------------------------------------
+// doctor.memory dream-action types
+// ---------------------------------------------------------------------------
+
+// DoctorMemoryDreamActionResult is the shared result for "doctor.memory.backfillDreamDiary",
+// "doctor.memory.resetDreamDiary", "doctor.memory.resetGroundedShortTerm",
+// "doctor.memory.repairDreamingArtifacts", and "doctor.memory.dedupeDreamDiary".
+type DoctorMemoryDreamActionResult struct {
+	AgentID                  string   `json:"agentId"`
+	Action                   string   `json:"action"`
+	Path                     string   `json:"path,omitempty"`
+	Found                    *bool    `json:"found,omitempty"`
+	ScannedFiles             *int     `json:"scannedFiles,omitempty"`
+	Written                  *int     `json:"written,omitempty"`
+	Replaced                 *int     `json:"replaced,omitempty"`
+	RemovedEntries           *int     `json:"removedEntries,omitempty"`
+	RemovedShortTermEntries  *int     `json:"removedShortTermEntries,omitempty"`
+	Changed                  *bool    `json:"changed,omitempty"`
+	ArchiveDir               string   `json:"archiveDir,omitempty"`
+	ArchivedDreamsDiary      *bool    `json:"archivedDreamsDiary,omitempty"`
+	ArchivedSessionCorpus    *bool    `json:"archivedSessionCorpus,omitempty"`
+	ArchivedSessionIngestion *bool    `json:"archivedSessionIngestion,omitempty"`
+	Warnings                 []string `json:"warnings,omitempty"`
+	DedupedEntries           *int     `json:"dedupedEntries,omitempty"`
+	KeptEntries              *int     `json:"keptEntries,omitempty"`
+}
+
+// ---------------------------------------------------------------------------
+// models.authStatus types
+// ---------------------------------------------------------------------------
+
+// ModelsAuthExpiry describes an expiring credential's expiry metadata.
+type ModelsAuthExpiry struct {
+	At          int64  `json:"at"`
+	RemainingMs int64  `json:"remainingMs"`
+	Label       string `json:"label"`
+}
+
+// ModelsAuthStatusProfile is a single credential profile within a provider.
+type ModelsAuthStatusProfile struct {
+	ProfileID string            `json:"profileId"`
+	Type      string            `json:"type"`
+	Status    string            `json:"status"`
+	Expiry    *ModelsAuthExpiry `json:"expiry,omitempty"`
+}
+
+// ModelsAuthStatusProvider is the auth health summary for one model provider.
+type ModelsAuthStatusProvider struct {
+	Provider    string                    `json:"provider"`
+	DisplayName string                    `json:"displayName"`
+	Status      string                    `json:"status"`
+	Expiry      *ModelsAuthExpiry         `json:"expiry,omitempty"`
+	Profiles    []ModelsAuthStatusProfile `json:"profiles"`
+	Usage       json.RawMessage           `json:"usage,omitempty"`
+}
+
+// ModelsAuthStatusResult is the result of "models.authStatus".
+type ModelsAuthStatusResult struct {
+	Ts        int64                      `json:"ts"`
+	Providers []ModelsAuthStatusProvider `json:"providers"`
 }

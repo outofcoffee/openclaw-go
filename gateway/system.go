@@ -32,3 +32,48 @@ func (c *Client) DoctorMemoryDreamDiary(ctx context.Context) (*protocol.DoctorMe
 	}
 	return &result, nil
 }
+
+// DoctorMemoryBackfillDreamDiary backfills the dream diary from daily memory files.
+func (c *Client) DoctorMemoryBackfillDreamDiary(ctx context.Context) (*protocol.DoctorMemoryDreamActionResult, error) {
+	var result protocol.DoctorMemoryDreamActionResult
+	if err := c.sendRPCTyped(ctx, string(protocol.MethodDoctorMemoryBackfillDreamDiary), struct{}{}, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// DoctorMemoryResetDreamDiary removes backfilled entries from the dream diary.
+func (c *Client) DoctorMemoryResetDreamDiary(ctx context.Context) (*protocol.DoctorMemoryDreamActionResult, error) {
+	var result protocol.DoctorMemoryDreamActionResult
+	if err := c.sendRPCTyped(ctx, string(protocol.MethodDoctorMemoryResetDreamDiary), struct{}{}, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// DoctorMemoryResetGroundedShortTerm removes grounded short-term memory candidates.
+func (c *Client) DoctorMemoryResetGroundedShortTerm(ctx context.Context) (*protocol.DoctorMemoryDreamActionResult, error) {
+	var result protocol.DoctorMemoryDreamActionResult
+	if err := c.sendRPCTyped(ctx, string(protocol.MethodDoctorMemoryResetGroundedShortTerm), struct{}{}, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// DoctorMemoryRepairDreamingArtifacts repairs corrupted dreaming artifacts.
+func (c *Client) DoctorMemoryRepairDreamingArtifacts(ctx context.Context) (*protocol.DoctorMemoryDreamActionResult, error) {
+	var result protocol.DoctorMemoryDreamActionResult
+	if err := c.sendRPCTyped(ctx, string(protocol.MethodDoctorMemoryRepairDreamingArtifacts), struct{}{}, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// DoctorMemoryDedupeDreamDiary removes duplicate entries from the dream diary.
+func (c *Client) DoctorMemoryDedupeDreamDiary(ctx context.Context) (*protocol.DoctorMemoryDreamActionResult, error) {
+	var result protocol.DoctorMemoryDreamActionResult
+	if err := c.sendRPCTyped(ctx, string(protocol.MethodDoctorMemoryDedupeDreamDiary), struct{}{}, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
