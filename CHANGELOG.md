@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `CommandsList(ctx, CommandsListParams) (*CommandsListResult, error)` and `MessageAction(ctx, MessageActionParams) (json.RawMessage, error)` gateway methods
 - `ChatSendResult` type for the `chat.send` RPC ack response
 - `CronListResult` and `CronRunsResult` paginated result types
 - `CronRunLogUsage` type for per-run token usage tracking
