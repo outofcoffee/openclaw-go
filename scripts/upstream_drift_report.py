@@ -135,15 +135,21 @@ def main() -> int:
     go_methods, go_sources = collect_go_methods(go_root)
 
     missing = sorted(upstream_methods - go_methods)
+    # Scope-only methods are HTTP endpoints authorized via method-scopes.ts but
+    # not callable as RPC methods — the Go client doesn't need stubs for them.
+    # Exclude them from the failure gate so they don't block release-sync CI.
+    missing_rpc = sorted(set(missing) - scope_only_methods)
     extra = sorted(go_methods - upstream_methods)
 
     report = {
         "upstream_method_count": len(upstream_methods),
         "go_method_count": len(go_methods),
         "missing_in_go": missing,
+        "missing_in_go_rpc": missing_rpc,
         "extra_in_go": extra,
         "missing_details": [
-            {"method": m, "upstream_source": upstream_sources.get(m, "")}
+            {"method": m, "upstream_source": upstream_sources.get(m, ""),
+             "scope_only": m in scope_only_methods}
             for m in missing
         ],
         "extra_details": [
@@ -161,7 +167,7 @@ def main() -> int:
     else:
         print(encoded)
 
-    if missing and not args.allow_missing:
+    if missing_rpc and not args.allow_missing:
         return 2
     return 0
 
