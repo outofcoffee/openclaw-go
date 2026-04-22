@@ -1251,6 +1251,14 @@ func TestWizardStatus(t *testing.T) {
 
 // --- Channels / Talk ---
 
+func TestChannelsStart(t *testing.T) {
+	tm := &testMethod{t: t, method: "channels.start", success: func(c *Client, ctx context.Context) error {
+		_, err := c.ChannelsStart(ctx, protocol.ChannelsStartParams{Channel: "slack"})
+		return err
+	}}
+	tm.run()
+}
+
 func TestChannelsStatus(t *testing.T) {
 	mg, wsURL, cleanup := startMockGateway(t)
 	defer cleanup()

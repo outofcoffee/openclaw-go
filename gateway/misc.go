@@ -29,6 +29,15 @@ func (c *Client) BrowserRequest(ctx context.Context, params any) (json.RawMessag
 	return c.sendRPC(ctx, string(protocol.MethodBrowserRequest), params)
 }
 
+// AssistantMediaGet retrieves assistant media availability and metadata.
+func (c *Client) AssistantMediaGet(ctx context.Context, params protocol.AssistantMediaGetParams) (*protocol.AssistantMediaGetResult, error) {
+	var result protocol.AssistantMediaGetResult
+	if err := c.sendRPCTyped(ctx, string(protocol.MethodAssistantMediaGet), params, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
 // VoiceWakeGet retrieves the voice wake configuration.
 func (c *Client) VoiceWakeGet(ctx context.Context) (json.RawMessage, error) {
 	return c.sendRPC(ctx, string(protocol.MethodVoiceWakeGet), struct{}{})

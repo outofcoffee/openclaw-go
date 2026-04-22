@@ -39,6 +39,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `CronListParams.IncludeDisabled` — use `Enabled` field instead (`"all"`, `"enabled"`, `"disabled"`)
 
+## [v2026.4.20] - 2026-04-22
+
+Sync to upstream openclaw v2026.4.20. Two new gateway RPC methods: `channels.start` for starting channel account connections and `assistant.media.get` for scoped assistant media retrieval.
+
+### Added
+
+- `ChannelsStart(ctx, ChannelsStartParams) (*ChannelsStartResult, error)` — start a channel account connection (`channels.start` RPC)
+- `AssistantMediaGet(ctx, AssistantMediaGetParams) (*AssistantMediaGetResult, error)` — retrieve assistant media availability and metadata (`assistant.media.get` RPC)
+- `ChannelsStartParams`, `ChannelsStartResult` protocol types
+- `AssistantMediaGetParams`, `AssistantMediaGetResult` protocol types
+- `MethodChannelsStart`, `MethodAssistantMediaGet` method name constants
+
 ## [v2026.4.8] - 2026-04-11
 
 Sync to upstream openclaw v2026.4.8. Six new gateway RPC methods for approval listing and session compaction checkpoints.

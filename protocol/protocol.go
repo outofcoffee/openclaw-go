@@ -181,10 +181,12 @@ const (
 
 	// Browser and channel integration.
 	// Deprecated: browser.request is not in upstream BASE_METHODS; treat as a deprecation candidate.
-	MethodBrowserRequest MethodName = "browser.request"
-	MethodChannelsLogout MethodName = "channels.logout"
-	MethodChannelsStatus MethodName = "channels.status"
-	MethodMessageAction  MethodName = "message.action"
+	MethodBrowserRequest    MethodName = "browser.request"
+	MethodChannelsLogout    MethodName = "channels.logout"
+	MethodChannelsStart     MethodName = "channels.start"
+	MethodChannelsStatus    MethodName = "channels.status"
+	MethodAssistantMediaGet MethodName = "assistant.media.get"
+	MethodMessageAction     MethodName = "message.action"
 
 	// Chat request/stream controls.
 	MethodChatAbort   MethodName = "chat.abort"
@@ -1792,10 +1794,35 @@ type ChannelAccountSnapshot struct {
 	Application            json.RawMessage `json:"application,omitempty"`
 }
 
+// ChannelsStartParams are the params for "channels.start".
+type ChannelsStartParams struct {
+	Channel   string `json:"channel"`
+	AccountID string `json:"accountId,omitempty"`
+}
+
+// ChannelsStartResult is the result of "channels.start".
+type ChannelsStartResult struct {
+	Channel   string `json:"channel"`
+	AccountID string `json:"accountId"`
+	Started   bool   `json:"started"`
+}
+
 // ChannelsLogoutParams are the params for "channels.logout".
 type ChannelsLogoutParams struct {
 	Channel   string `json:"channel"`
 	AccountID string `json:"accountId,omitempty"`
+}
+
+// AssistantMediaGetParams are the params for "assistant.media.get".
+type AssistantMediaGetParams struct {
+	Source string `json:"source"`
+}
+
+// AssistantMediaGetResult is the result of "assistant.media.get".
+type AssistantMediaGetResult struct {
+	Available bool   `json:"available"`
+	Source    string `json:"source,omitempty"`
+	MimeType  string `json:"mimeType,omitempty"`
 }
 
 // ---------------------------------------------------------------------------

@@ -7,6 +7,15 @@ import (
 	"github.com/a3tai/openclaw-go/protocol"
 )
 
+// ChannelsStart starts a channel account connection.
+func (c *Client) ChannelsStart(ctx context.Context, params protocol.ChannelsStartParams) (*protocol.ChannelsStartResult, error) {
+	var result protocol.ChannelsStartResult
+	if err := c.sendRPCTyped(ctx, string(protocol.MethodChannelsStart), params, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
 // ChannelsStatus retrieves the status of all channels.
 func (c *Client) ChannelsStatus(ctx context.Context, params protocol.ChannelsStatusParams) (*protocol.ChannelsStatusResult, error) {
 	var result protocol.ChannelsStatusResult
