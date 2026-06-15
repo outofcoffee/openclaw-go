@@ -239,11 +239,16 @@ func (c *Client) buildConnectParams(challenge *protocol.ConnectChallenge) protoc
 		UserAgent:   c.opts.userAgent,
 	}
 
-	// Auth: token or password.
+	// Auth: token or password, plus an optional bootstrap token. The
+	// bootstrap token rides alongside the device identity on first connect
+	// and may be presented with or without a shared token/password.
 	if c.opts.token != "" {
-		params.Auth = protocol.AuthParams{Token: c.opts.token}
+		params.Auth.Token = c.opts.token
 	} else if c.opts.password != "" {
-		params.Auth = protocol.AuthParams{Password: c.opts.password}
+		params.Auth.Password = c.opts.password
+	}
+	if c.opts.bootstrapToken != "" {
+		params.Auth.BootstrapToken = c.opts.bootstrapToken
 	}
 
 	// Device identity (includes challenge nonce for signing).

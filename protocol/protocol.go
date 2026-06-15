@@ -448,6 +448,11 @@ type DeviceIdentity struct {
 type AuthParams struct {
 	Token    string `json:"token,omitempty"`
 	Password string `json:"password,omitempty"`
+	// BootstrapToken is a short-lived setup-code credential (from
+	// `openclaw qr`) presented alongside a device identity at connect. The
+	// gateway redeems it to establish and approve the device with the
+	// bootstrap scope profile, without a manual pairing approval.
+	BootstrapToken string `json:"bootstrapToken,omitempty"`
 }
 
 // ConnectParams is the params payload for a "connect" request.
